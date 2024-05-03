@@ -1,9 +1,9 @@
 <?php
 require_once ('practica.inc.php');
-require_once ('practica-lib.php');
 require_once ('Participante.class.php');
 require_once('Gestor.class.php');
 require_once('Administrador.class.php');
+require_once('libdata.php');
 
 $PATH = $_SERVER['PATH_INFO'];
 
@@ -17,13 +17,13 @@ if ($PATH == '/login') {
         exit;
     }
     // Control logic
-    $user = user_get($username);
+    $user = json_decode(json_encode(user_get($username)));
     if ($user == null) {
         // Usuario no existe. Reenviamos al formulario de login
         header("Location: $SITE/Login.php?error=username");
         exit;
     } else {
-        if ($user->password != md5($password)) {
+        if (obtenerPassword($username) != md5($password)) {
             // Contraseña incorrecta. Reenviamos al formulario de login
             header("Location: $SITE/Login.php?error=password");
             exit;
@@ -31,6 +31,7 @@ if ($PATH == '/login') {
             session_start();
             $_SESSION['auth'] = true;
             // unset($user->password);
+            // Exito de login. Redirigimos a una pagina interna de la aplicacion
             if ($user->rol == 'Administrador') {
                 $_SESSION['user'] = new Administrador($username, $user->email, $user->password, $user->rol, $user->DNI, $user->telefono, $user->despacho, $user->skills);
             } elseif ($user->rol == 'Gestor_de_proyectos') {
@@ -38,7 +39,6 @@ if ($PATH == '/login') {
             } else {
                 $_SESSION['user'] = new Participante($user, $user->email, $user->password, $user->rol, $user->DNI, $user->telefono, $user->despacho, $user->skills);
             }
-            // Exito de login. Redirigimos a una pagina interna de la aplicacion
             header("Location: $SITE/InicioTrasRegistro.php");
             exit;
         }

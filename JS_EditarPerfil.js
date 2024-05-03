@@ -68,8 +68,6 @@ $(document).ready(function () {
 
         if (huboError) {
             e.preventDefault();
-        } else {
-            e.preventDefault();
         }
     });
 });

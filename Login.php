@@ -2,6 +2,10 @@
 session_start();
 session_unset();
 session_destroy();
+
+require_once('libdata.php');
+
+$users = user_get_all(['preferencias'=>true]);
 ?>
 <!DOCTYPE html>
 <html lang="es">

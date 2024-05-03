@@ -3,7 +3,7 @@ require_once ('practica.inc.php');
 require_once ('Participante.class.php');
 require_once ('Gestor.class.php');
 require_once ('Administrador.class.php');
-require_once ('practica.lib.php');
+require_once ('practica-lib.php');
 
 $username = $_POST['username'];
 $email = $_POST['email'];
@@ -13,7 +13,8 @@ $phone = $_POST['phone'];
 $skills = $_POST['skills'];
 $office = $_POST['office'];
 
-//if($_SESSION['user'] == $username){
+session_start();
+
     if($_SESSION['user']->isGestor()){
         $rol = 'Gestor_de_proyectos';
         $users = user_get_all();
@@ -25,7 +26,7 @@ $office = $_POST['office'];
                     $u->password = md5($password);
                 }
                 $u->rol = $rol;
-                $u->dni = $dni;
+                $u->DNI = $dni;
                 $u->telefono = $phone;
                 $u->skills = $skills;
                 $u->despacho = $office;
@@ -46,7 +47,7 @@ $office = $_POST['office'];
                         $u->password = md5($password);
                     }
                     $u->rol = $rol;
-                    $u->dni = $dni;
+                    $u->DNI = $dni;
                     $u->telefono = $phone;
                     $u->skills = $skills;
                     $u->despacho = $office;
@@ -67,7 +68,7 @@ $office = $_POST['office'];
                     $u->password = md5($password);
                 }
                 $u->rol = $rol;
-                $u->dni = $dni;
+                $u->DNI = $dni;
                 $u->telefono = $phone;
                 $u->skills = $skills;
                 $u->despacho = $office;
@@ -78,4 +79,3 @@ $office = $_POST['office'];
     }
     header("Location: $SITE/InicioTrasRegistro.php");
     exit;
-//}

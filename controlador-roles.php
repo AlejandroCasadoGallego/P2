@@ -21,7 +21,7 @@ function isSesionIniciada()
 {
     session_start(); // Iniciar la sesión
     if (!isset($_SESSION['user'])) {
-        header('Location: ./login.php'); // Redirigir al inicio de sesión si la sesión no está activa
+        header('Location: ./Login.php'); // Redirigir al inicio de sesión si la sesión no está activa
         exit();
     }
 }
@@ -29,6 +29,14 @@ function isSesionIniciada()
 function isSesionGestor(){
     isSesionIniciada();
     if(!$_SESSION['user']->isGestor()){
+        header('Location: ./InicioTrasRegistro.php');
+        exit();
+    }
+}
+
+function isSesionAdmin(){
+    isSesionIniciada();
+    if(!$_SESSION['user']->isAdmin()){
         header('Location: ./InicioTrasRegistro.php');
         exit();
     }
